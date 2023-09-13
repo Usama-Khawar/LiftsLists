@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import axios from 'axios'
+import { patchLift } from '../../services/NetworkManager'
 
 export type Lift = {
   _id: string
@@ -17,6 +18,7 @@ type LiftsContextObj = {
   isLoading: boolean
   onUpdate: (id: string, updatedStatus: string) => void
   filteredArr: Lift[]
+  currArr : Lift[]
   onItemClicked: (id: string) => void
   selectedItemId: string | null
 }
@@ -34,6 +36,7 @@ const defaultLiftsContextValue: LiftsContextObj = {
   isLoading: false,
   onUpdate: () => {},
   filteredArr: [],
+  currArr : [],
   onItemClicked: () => {},
   selectedItemId: null,
 }
@@ -93,30 +96,59 @@ export const LiftProvider: React.FC<LiftProviderProps> = ({ children }) => {
     setSelectedItemId(id)
   }
 
-  const onUpdate = (id: string, updatedStatus: string) => {
+  const onUpdate = async (id: string, updatedStatus: string) => {
     setLoading((prevVal) => !prevVal)
-    let foundIndex = currArr.findIndex((x) => x._id === id)
-    let updatedArr = [...currArr]
-    updatedArr[foundIndex] = {
-      ...updatedArr[foundIndex],
-      status: updatedStatus,
-    }
+    try {
+      let foundIndex = currArr.findIndex((x) => x._id === id)
+      let updatedArr = [...currArr]
+      updatedArr[foundIndex] = {
+        ...updatedArr[foundIndex],
+        status: updatedStatus,
+      }
 
-    const selectedItem : Lift = updatedArr[foundIndex]
-    axios
-      .patch(
+      const selectedItem = updatedArr[foundIndex]
+
+      await patchLift(
         `https://nutty-puce-scallop.cyclic.app/lifts/editlift/${selectedItem._id}`,
         selectedItem
       )
-      .then((resp) => {
-        setCurrArr(updatedArr)
-        onShow()
-        setLoading((prevVal) => !prevVal)
-      })
-      .catch((err) => {
-        console.log('error thrown not updated', err)
-        setLoading((prevVal) => !prevVal)
-      })
+
+      setCurrArr(updatedArr)
+      onShow()
+    } catch (err) {
+      console.log('error thrown not updated', err)
+    } finally {
+      setLoading((prevVal) => !prevVal)
+    }
+
+    // setLoading((prevVal) => !prevVal)
+    // let foundIndex = currArr.findIndex((x) => x._id === id)
+    // let updatedArr = [...currArr]
+    // updatedArr[foundIndex] = {
+    //   ...updatedArr[foundIndex],
+    //   status: updatedStatus,
+    // }
+
+    // const selectedItem : Lift = updatedArr[foundIndex]
+    // axios
+    //   .patch(
+    //     `https://nutty-puce-scallop.cyclic.app/lifts/editlift/${selectedItem._id}`,
+    //     selectedItem
+    //   )
+    //   .then((resp) => {
+    //     setCurrArr(updatedArr)
+    //     onShow()
+    //     setLoading((prevVal) => !prevVal)
+    //   })
+    //   .catch((err) => {
+    //     console.log('error thrown not updated', err)
+    //     setLoading((prevVal) => !prevVal)
+    //   })
+
+    //     const data = patchReq(
+    //       `https://nutty-puce-scallop.cyclic.app/lifts/editlift/${selectedItem._id}`,selectedItem
+    //     )
+    //     console.log(data);
   }
 
   const contextVal: LiftsContextObj = {
@@ -124,6 +156,7 @@ export const LiftProvider: React.FC<LiftProviderProps> = ({ children }) => {
     isOpen,
     onUpdate,
     isLoading,
+    currArr,
     filteredArr,
     getLiftsData,
     onItemClicked,
