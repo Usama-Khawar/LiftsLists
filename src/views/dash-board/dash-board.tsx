@@ -1,11 +1,10 @@
-import React from "react";
-import { useLifts } from "../../context/LiftContext/LiftsContext";
-import style from './dashboard.module.css'
-import Lists from "../Lists/Lists";
-import Select from "../ui/Select/Select";
-import Modal from "../modals/Modal/Modal";
-import Spinner from "../ui/Spinner/Spinner";
-
+import React from 'react'
+import { useLifts } from '../../context/lift-context/lift-context'
+import style from './dash-board.module.css'
+import Lists from '../../components/dash-board/Lists/Lists'
+import Select from '../../components/ui/select/Select'
+import Modal from '../../components/modals/modal/modal'
+import Spinner from '../../components/shared/spinner/spinner'
 
 const Dashboard = () => {
   const { filteredArr, handleSelectChange, isLoading } = useLifts()
@@ -40,6 +39,6 @@ const Dashboard = () => {
       </div>
     </div>
   )
-};
+}
 
-export default Dashboard;
+export default Dashboard

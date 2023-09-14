@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './listItem.module.css'
 import { AiFillEdit } from 'react-icons/ai'
-import { useLifts } from '../../../context/LiftContext/LiftsContext'
+import { useLifts } from '../../../../context/lift-context/lift-context'
 
 type ListItemProps = {
   name: string

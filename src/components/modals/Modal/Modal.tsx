@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import style from './modal.module.css'
-import Backdrop from '../../Backdrop/Backdrop'
-import { Lift, useLifts } from '../../../context/LiftContext/LiftsContext'
-import Select from '../../ui/Select/Select'
-import Lists from '../../Lists/Lists'
-import Button from '../../ui/Button/Button'
+import Backdrop from '../../back-drop/back-drop'
+import { Lift, useLifts } from '../../../context/lift-context/lift-context'
+import Select from '../../ui/select/Select'
+import Lists from '../../dash-board/Lists/Lists'
+import Button from '../../ui/button/Button'
 
 const Modal: React.FC = () => {
   const { filteredArr, selectedItemId, isOpen, onShow, onUpdate, isLoading } =
@@ -37,8 +37,7 @@ const Modal: React.FC = () => {
   const modalClasses = [style.Modal, isOpen ? style.open : style.closed]
 
   return (
-    <div>
-      <Backdrop show={isOpen} clicked={onShow} />
+    <Backdrop show={isOpen} clicked={onShow}>
       <div className={modalClasses.join(' ')}>
         <div className={style.modalDiv}>
           {modalData}
@@ -56,7 +55,7 @@ const Modal: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Backdrop>
   )
 }
 

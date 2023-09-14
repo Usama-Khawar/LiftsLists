@@ -1,9 +1,9 @@
 import React from 'react'
-import Dashboard from './components/Dashboard/Dashboard'
-import { LiftProvider } from './context/LiftContext/LiftsContext'
+import Dashboard from './views/dash-board/dash-board'
+import { LiftProvider } from './context/lift-context/lift-context'
 
 function App() {
-  return(
+  return (
     <LiftProvider>
       <Dashboard />
     </LiftProvider>

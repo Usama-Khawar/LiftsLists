@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import axios from 'axios'
-import { patchLift } from '../../services/NetworkManager'
+import { patchLift, getLifts } from '../../services/network-manager'
 
 export type Lift = {
   _id: string
@@ -18,7 +17,7 @@ type LiftsContextObj = {
   isLoading: boolean
   onUpdate: (id: string, updatedStatus: string) => void
   filteredArr: Lift[]
-  currArr : Lift[]
+  currArr: Lift[]
   onItemClicked: (id: string) => void
   selectedItemId: string | null
 }
@@ -36,7 +35,7 @@ const defaultLiftsContextValue: LiftsContextObj = {
   isLoading: false,
   onUpdate: () => {},
   filteredArr: [],
-  currArr : [],
+  currArr: [],
   onItemClicked: () => {},
   selectedItemId: null,
 }
@@ -54,11 +53,11 @@ export const LiftProvider: React.FC<LiftProviderProps> = ({ children }) => {
   const getLiftsData = async () => {
     try {
       setLoading((prevVal) => !prevVal)
-      const res = await axios.get<Lift[]>(
+      const res = await getLifts(
         'https://nutty-puce-scallop.cyclic.app/lifts/alllift'
       )
-      setCurrArr(res.data)
-      setFilteredArr(res.data)
+      setCurrArr(res)
+      setFilteredArr(res)
     } catch (error) {
       console.error('Error:', error)
     } finally {
@@ -82,6 +81,7 @@ export const LiftProvider: React.FC<LiftProviderProps> = ({ children }) => {
       const filteredData = filterByStatus(status)
       setFilteredArr(filteredData)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, currArr])
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -89,6 +89,7 @@ export const LiftProvider: React.FC<LiftProviderProps> = ({ children }) => {
   }
 
   const onShow = () => {
+    console.log('on show called')
     setIsOpen((prevVal) => !prevVal)
   }
 
