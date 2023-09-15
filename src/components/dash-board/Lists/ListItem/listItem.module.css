@@ -1,0 +1,30 @@
+.ListItem {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px 0;
+  border: 1px solid black;
+  padding: 10px 20px;
+  width: 90%;
+}
+
+button {
+  font-size: 20px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 420px) {
+  .ListItem {
+    padding: 5px 10px;
+  }
+
+  h3 {
+    font-size: 12px;
+  }
+  p {
+    font-size: 10px;
+  }
+}

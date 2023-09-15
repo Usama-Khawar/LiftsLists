@@ -1,0 +1,29 @@
+.Button {
+  border: none;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 12px;
+  margin: 10px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.Button:disabled {
+  color: #ccc;
+}
+
+.Success {
+  background-color: rgb(129, 10, 129);
+}
+
+.Danger {
+  background-color: rgb(174, 38, 38);
+}
+
+@media (max-width: 420px) {
+  .Button {
+    font-size: 10px;
+  }
+}
