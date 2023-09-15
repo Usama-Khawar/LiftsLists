@@ -12,10 +12,14 @@ type LiftsContextObj = {
   getLiftsData: () => void
   filterByStatus: (status: string) => Lift[]
   handleSelectChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
-  onShow: () => void
+  onShow: (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => void
   isOpen: boolean
   isLoading: boolean
-  onUpdate: (id: string, updatedStatus: string) => void
+  onUpdate: (
+    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
+    id: string,
+    updatedStatus: string
+  ) => void
   filteredArr: Lift[]
   currArr: Lift[]
   onItemClicked: (id: string) => void
@@ -88,7 +92,8 @@ export const LiftProvider: React.FC<LiftProviderProps> = ({ children }) => {
     setStatus(event.target.value)
   }
 
-  const onShow = () => {
+  const onShow = (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
+    e.stopPropagation()
     console.log('on show called')
     setIsOpen((prevVal) => !prevVal)
   }
@@ -97,7 +102,12 @@ export const LiftProvider: React.FC<LiftProviderProps> = ({ children }) => {
     setSelectedItemId(id)
   }
 
-  const onUpdate = async (id: string, updatedStatus: string) => {
+  const onUpdate = async (
+    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
+    id: string,
+    updatedStatus: string
+  ) => {
+    e.stopPropagation()
     setLoading((prevVal) => !prevVal)
     try {
       let foundIndex = currArr.findIndex((x) => x._id === id)
@@ -115,7 +125,7 @@ export const LiftProvider: React.FC<LiftProviderProps> = ({ children }) => {
       )
 
       setCurrArr(updatedArr)
-      onShow()
+      onShow(e)
     } catch (err) {
       console.log('error thrown not updated', err)
     } finally {

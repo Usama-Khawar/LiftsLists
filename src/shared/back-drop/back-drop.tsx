@@ -3,15 +3,17 @@ import style from './back-drop.module.css'
 
 type BackdropProps = {
   show: boolean
-  clicked: () => void
+  clicked: (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => void
   children: React.ReactNode
 }
 
 const Backdrop: React.FC<BackdropProps> = ({ show, clicked, children }) => {
+  const backDropClass = [style.Backdrop, show ? style.open : style.close]
   return (
     <>
-      {show ? <div className={style.Backdrop} onClick={clicked}></div> : null}
-      {children}
+      <div className={backDropClass.join(' ')} onClick={(e) => clicked(e)}>
+        {children}
+      </div>
     </>
   )
 }

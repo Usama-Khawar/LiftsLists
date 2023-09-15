@@ -42,22 +42,29 @@ const Modal: React.FC = () => {
   const modalClasses = [style.Modal, isOpen ? style.open : style.closed]
 
   return (
-    <Backdrop show={isOpen} clicked={onShow}>
+    <Backdrop
+      show={isOpen}
+      clicked={(e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) =>
+        onShow(e)
+      }
+    >
       <div className={modalClasses.join(' ')}>
         <div className={style.modalDiv}>
-          {(selectedItemId && isOpen) ? <ModalData
-            selectedItem={selectedItem}
-            selectedItemStatus={selectedItemStatus}
-            setSelectedItemStatus={setSelectedItemStatus}
-          /> : null}
+          {selectedItemId && isOpen ? (
+            <ModalData
+              selectedItem={selectedItem}
+              selectedItemStatus={selectedItemStatus}
+              setSelectedItemStatus={setSelectedItemStatus}
+            />
+          ) : null}
 
           <Lists lists={filteredArr} disabled={true} height={'30vh'} />
           <div className={style.btnDiv}>
             <Button value='CANCEL' handleClick={onShow} btnType='Danger' />
             <Button
               value={isLoading ? 'UPDATING...' : 'SAVE'}
-              handleClick={() =>
-                onUpdate(selectedItemId || '', selectedItemStatus || '')
+              handleClick={(e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) =>
+                onUpdate(e , selectedItemId || '', selectedItemStatus || '')
               }
               btnType='Success'
             />

@@ -3,7 +3,7 @@ import style from './button.module.css'
 
 type ButtonProps = {
   value: string
-  handleClick: () => void // should be onClick or handleClick
+  handleClick: (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => void // should be onClick or handleClick
   btnType?: 'Danger' | 'Success'
   disabled?: boolean
 }
@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={[style.Button, style[btnType]].join(' ')}
-      onClick={handleClick}
+      onClick={(e)=>handleClick(e)}
       disabled={disabled}
     >
       {value}

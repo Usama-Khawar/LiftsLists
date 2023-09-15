@@ -13,10 +13,10 @@ type ListItemProps = {
 const ListItem: React.FC<ListItemProps> = ({ name, id, status, disabled }) => {
   const { onItemClicked, onShow } = useLifts()
 
-  const handleClick = (itemId: string) => {
+  const handleClick = (e :React.MouseEvent<HTMLButtonElement | HTMLDivElement>,itemId: string) => {
     if (!disabled) {
       onItemClicked(itemId)
-      onShow()
+      onShow(e)
     }
   }
 
@@ -29,7 +29,7 @@ const ListItem: React.FC<ListItemProps> = ({ name, id, status, disabled }) => {
       <h3>{name}</h3>
       <p>{status}</p>
       {disabled ? null : (
-        <button onClick={() => handleClick(id)}>
+        <button onClick={(e) => handleClick(e,id)}>
           <AiFillEdit />
         </button>
       )}
